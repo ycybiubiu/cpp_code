@@ -66,27 +66,27 @@ private:
 //	构造函数分类
 //  1、按照参数分为无参和有参
 //  2、按照类型分为普通和拷贝
-class Person {
+class Person0 {
 public:
 	//无参
-	Person() {
+	Person0() {
 		cout << "调用无参构造" << endl;
 	}
 	//有参
-	Person(int a, int height) {
+	Person0(int a, int height) {
 		age = a;
 		m_height = new int(height);
 		cout << "调用有参构造" << endl;
 	}
 	//构造
-	Person(const Person &p) {
+	Person0(const Person0 &p) {
 		age = p.age;
 		//m_height = p.m_height;//默认拷贝构造的浅拷贝
 		m_height = new int(*p.m_height);//深拷贝开辟新堆区
 		cout << "调用拷贝构造" << endl;
 	}
 	//析构函数
-	~Person() {
+	~Person0() {
 		if (m_height != NULL)
 		{
 			delete m_height;
@@ -100,12 +100,12 @@ public:
 //调用构造函数
 void test01() {
 	//显示法
-	Person p1;
-	Person p2(10,160);
-	Person p3(p2);
+	Person0 p1;
+	Person0 p2(10,160);
+	Person0 p3(p2);
 	//括号法
-	Person p4 = Person(100, 160);
-	Person p5 = Person(p4);//浅拷贝带来的问题是堆区数据重复释放
+	Person0 p4 = Person0(100, 160);
+	Person0 p5 = Person0(p4);//浅拷贝带来的问题是堆区数据重复释放
 	//隐式法
 	//Person p6 = 1000,160;
 	//Person p7 = p6;

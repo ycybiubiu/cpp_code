@@ -79,6 +79,75 @@ ostream& operator <<(ostream& cout, MyInteger MyInt)
 	return cout;
 }
 
+
+class Person2
+{
+public:
+	Person2(int age)
+	{
+		m_age = new int(age); // 使用 new 分配内存
+	}
+	int* m_age;
+	~Person2() 
+	{
+		if (m_age != NULL) 
+		{
+			delete m_age;
+			m_age = NULL;
+		}
+	}
+	//重载赋值运算符
+	Person2& operator=(Person2 &p){
+		//编译器提供的浅拷贝
+		//m_age = p.m_age;
+		//应该先判断是否有属性在堆区，如果有先释放干净，然后再深拷贝
+		if (m_age != NULL)
+		{
+			delete m_age;
+			m_age = NULL;
+		}
+		//深拷贝
+		m_age = new int(*p.m_age);
+		return *this;
+	}
+};
+
+class Person03 
+{
+public:
+	Person03(string name, int age) 
+	{
+		m_name = name;
+		m_age = age;
+	}
+	bool operator==(Person03& p)
+	{
+		if (this->m_name == p.m_name && this->m_age == p.m_age) 
+		{
+			return true;
+		}
+		return false;
+	}
+	bool operator!=(Person03& p)
+	{
+		if (this->m_name != p.m_name || this->m_age != p.m_age)
+		{
+			return false;
+		}
+		return true;
+	}
+	string m_name;
+	int m_age;
+};
+//函数调用重载，伪函数
+class myadd 
+{
+public:
+	int operator()(int n1, int n2)
+	{
+		return n1 + n2;
+	}
+};
 int main()
 {
 	numberarr1 n1(10, 20);
@@ -97,6 +166,21 @@ int main()
 	cout << ++(++myint) << endl;
 	cout << myint++ << endl;
 	cout << myint << endl;
+
+	Person2 p1(18);
+	Person2 p2(20);
+	Person2 p3(30);
+	p3 = p2 = p1;
+	cout << *p1.m_age << *p2.m_age<< *p3.m_age<< endl;
+	Person03 wukong("悟空", 5000);
+	Person03 bajie("八戒", 50000);
+	if (wukong == bajie) {
+		cout << "wukong == bajie" << endl;
+	}
+	else {
+		cout << "wukong != bajie" << endl;
+	}
+	cout << myadd()(10, 20) << endl;//不想创建对象则可以使用匿名对象调用
 	system("pause");
 	return 0;
 }
